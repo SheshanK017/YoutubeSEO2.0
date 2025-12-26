@@ -1,4 +1,6 @@
-<nav class="bg-white dark:bg-slate-800 shadow-lg border-b border-slate-200 dark:border-slate-700 mt-4 mb-8 rounded-2xl transition-colors duration-300"
+<nav class="bg-[#FFF7ED] dark:bg-[#1E1B16] shadow-lg
+            border-b border-[#E7D8C9] dark:border-[#3A3028]
+            mt-4 mb-8 rounded-2xl transition-colors duration-300"
      th:fragment="navbar"
      xmlns:th="http://www.thymeleaf.org">
 
@@ -7,69 +9,136 @@
 
             <!-- Logo -->
             <a href="/"
-               class="text-blue-600 dark:text-blue-400 font-bold text-xl hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
+               class="text-[#7F1D1D] dark:text-red-400
+                      font-bold text-xl tracking-wide">
                 YouTube Tools
             </a>
 
-            <!-- Navigation Links -->
-            <div class="flex items-center space-x-6">
-
-                <!-- SEO Tags -->
-                <a href="/"
-                   class="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 py-2 px-3 rounded-lg"
-                   th:classappend="${activePage} == 'home' ? 'text-blue-600 dark:text-blue-400 font-semibold bg-blue-50 dark:bg-blue-900/20'">
-                    SEO Tags
-                </a>
-
-                <!-- Thumbnails -->
-                <a href="/thumbnail"
-                   class="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 py-2 px-3 rounded-lg"
-                   th:classappend="${activePage} == 'thumbnails' ? 'text-blue-600 dark:text-blue-400 font-semibold bg-blue-50 dark:bg-blue-900/20'">
-                    Thumbnails
-                </a>
-
-                <!-- Video Data -->
-                <a href="/video-details"
-                   class="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 py-2 px-3 rounded-lg"
-                   th:classappend="${activePage} == 'video' ? 'text-blue-600 dark:text-blue-400 font-semibold bg-blue-50 dark:bg-blue-900/20'">
-                    Video Data
-                </a>
-
-                <!-- Theme Toggle Button -->
-                <button id="themeToggle"
-                        type="button"
-                        class="w-10 h-10 flex items-center justify-center border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 bg-transparent hover:bg-blue-600 hover:text-white dark:hover:bg-blue-400 dark:hover:text-slate-900 rounded-lg transition-all duration-200">
-                    <i id="themeIcon" class="bi bi-sun-fill"></i>
-                </button>
-
-            </div>
+            <!-- Menu Button -->
+            <button id="menuToggle"
+                    class="border border-[#7F1D1D] dark:border-red-400
+                           text-[#7F1D1D] dark:text-red-400
+                           px-4 py-2 rounded-lg
+                           hover:bg-[#7F1D1D] hover:text-[#FFF7ED]
+                           dark:hover:bg-red-400 dark:hover:text-black
+                           transition-all duration-200">
+                <i class="bi bi-list"></i>
+            </button>
         </div>
     </div>
 
+    <!-- Right Side Drawer -->
+    <div id="menu"
+         class="fixed top-0 right-0 h-full w-64
+                bg-[#FFF7ED] dark:bg-[#1E1B16]
+                shadow-2xl border-l border-[#E7D8C9] dark:border-[#3A3028]
+                transform translate-x-full transition-transform duration-300
+                z-50">
+
+        <!-- Close Button -->
+        <button id="menuClose"
+                class="absolute top-4 right-4
+                       text-[#7F1D1D] dark:text-red-400
+                       hover:text-black dark:hover:text-white
+                       transition-colors text-xl">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+        <div class="flex flex-col items-center gap-4 mt-24 px-4">
+
+            <a href="/"
+               class="nav-link w-full text-center"
+               th:classappend="${activePage} == 'home' ? 'active'">
+                SEO Tags
+            </a>
+
+            <a href="/thumbnail"
+               class="nav-link w-full text-center"
+               th:classappend="${activePage} == 'thumbnails' ? 'active'">
+                Thumbnails
+            </a>
+
+            <a href="/video-details"
+               class="nav-link w-full text-center"
+               th:classappend="${activePage} == 'video' ? 'active'">
+                Video Data
+            </a>
+
+            <div class="w-10 h-px bg-[#D6C3B3] dark:bg-[#3A3028] my-3"></div>
+
+            <!-- Theme Toggle -->
+            <button id="themeToggle"
+                    class="w-10 h-10 flex items-center justify-center
+                           border border-[#7F1D1D] dark:border-red-400
+                           text-[#7F1D1D] dark:text-red-400
+                           hover:bg-[#7F1D1D] hover:text-[#FFF7ED]
+                           dark:hover:bg-red-400 dark:hover:text-black
+                           rounded-lg transition-all duration-200">
+                <i id="themeIcon" class="bi bi-sun-fill"></i>
+            </button>
+
+        </div>
+    </div>
+
+    <style>
+        .nav-link {
+            @apply px-6 py-2 rounded-lg font-medium
+                   text-[#1C1917] dark:text-[#E7E5E4]
+                   hover:text-[#7F1D1D] dark:hover:text-red-400
+                   transition-colors;
+        }
+
+        .active {
+            @apply bg-[#F3E8E2] dark:bg-[#2A211B]
+                   text-[#7F1D1D] dark:text-red-400
+                   font-semibold;
+        }
+
+        body.menu-open {
+            transform: translateX(-120px);
+            transition: transform 0.3s ease;
+        }
+    </style>
 
     <script>
-        const toggleBtn = document.getElementById('themeToggle');
-        const icon = document.getElementById('themeIcon')
+        const menu = document.getElementById('menu');
+        const menuToggle = document.getElementById('menuToggle');
+        const menuClose = document.getElementById('menuClose');
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = document.getElementById('themeIcon');
 
-      toggleBtn.addEventListener('click', function () {
-      const htmlTag = document.documentElement;
+        function openMenu() {
+            menu.classList.remove('translate-x-full');
+            document.body.classList.add('menu-open');
+        }
 
-      if (htmlTag.classList.contains('dark')) {
-        htmlTag.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-        icon.className = 'bi bi-sun-fill';
-      } else {
-        htmlTag.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-        icon.className = 'bi bi-moon-fill';
-      }
-      });
+        function closeMenu() {
+            menu.classList.add('translate-x-full');
+            document.body.classList.remove('menu-open');
+        }
 
-      // Page load par check karo
-      if (localStorage.getItem('theme') === 'dark') {
-      document.documentElement.classList.add('dark');
-      icon.className = 'bi bi-moon-fill';
-      }
+        menuToggle.addEventListener('click', openMenu);
+        menuClose.addEventListener('click', closeMenu);
 
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+
+            if (html.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                icon.className = 'bi bi-moon-fill';
+            } else {
+                localStorage.setItem('theme', 'light');
+                icon.className = 'bi bi-sun-fill';
+            }
+        });
+
+        // Load theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            icon.className = 'bi bi-moon-fill';
+        }
     </script>
+
 </nav>
