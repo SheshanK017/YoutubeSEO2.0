@@ -7,12 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/search")
-public class YoutubeTagGenerator {
+@RequestMapping("/youtube")
+public class YoutubeTagController {
 
     @Autowired
     private YoutubeService youtubeService;
@@ -28,6 +29,7 @@ public class YoutubeTagGenerator {
         return true;
     }
 
+    @PostMapping("/search")
     public String videoTags(@RequestParam ("videoTitle") String videoTitle, Model model){
 
 
@@ -43,7 +45,7 @@ public class YoutubeTagGenerator {
         }
 
         try{
-            SearchVideos result=YoutubeService.searchVideos(videoTitle);;
+            SearchVideos result=youtubeService.searchVideos(videoTitle);
 
             model.addAttribute("primaryVideos",result.getPrimaryVideo());
             model.addAttribute("relatedVideos",result.getRelatedVideo());
@@ -53,8 +55,6 @@ public class YoutubeTagGenerator {
            model.addAttribute("error",e.getMessage());
            return "home";
         }
-
-        return null;
     }
 
 }
